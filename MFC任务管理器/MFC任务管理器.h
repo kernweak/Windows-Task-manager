@@ -28,5 +28,5 @@ public:
 
 	DECLARE_MESSAGE_MAP()
 };
-
+//
 extern CMFC任务管理器App theApp;
