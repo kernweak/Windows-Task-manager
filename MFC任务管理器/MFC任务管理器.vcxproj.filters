@@ -27,11 +27,35 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTableCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaChuangkou.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaCpu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaDui.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DigInformation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaJincheng.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaMokuai.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DiaXianCheng.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +66,30 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTableCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DiaChuangkou.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DiaCpu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DiaDui.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DigInformation.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DiaJincheng.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DiaMokuai.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DiaXianCheng.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

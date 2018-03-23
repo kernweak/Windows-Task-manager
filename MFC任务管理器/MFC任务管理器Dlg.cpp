@@ -8,6 +8,13 @@
 #include "afxdialogex.h"
 #include <windows.h>
 #include <tchar.h>
+#include"DiaChuangkou.h"
+#include "DiaCpu.h"
+#include "DiaDui.h"
+#include "DiaJincheng.h"
+#include "DiaMokuai.h"
+#include "DiaXianCheng.h"
+#include "DigInformation.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,6 +75,7 @@ void CMFC任务管理器Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_MFCSHELLLIST1, m_ShellList);
 	DDX_Text(pDX, IDC_EDIT1, m_foldload);
 	DDX_Text(pDX, IDC_EDIT2, m_wenJianXinXi);
+	DDX_Control(pDX, IDC_TAB1, m_MyTable);
 }
 
 BEGIN_MESSAGE_MAP(CMFC任务管理器Dlg, CDialogEx)
@@ -80,6 +88,7 @@ BEGIN_MESSAGE_MAP(CMFC任务管理器Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMFC任务管理器Dlg::OnBnClickedClean)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMFC任务管理器Dlg::OnBnClickedHuoquWenjian)
 	ON_NOTIFY(NM_CLICK, IDC_MFCSHELLLIST1, &CMFC任务管理器Dlg::OnNMClickMfcshelllist1)
+	ON_MESSAGE(WM_GETMOKUAI, &CMFC任务管理器Dlg::OnGetmokuai)
 END_MESSAGE_MAP()
 
 
@@ -123,7 +132,58 @@ BOOL CMFC任务管理器Dlg::OnInitDialog()
 	m_Menu.LoadMenu(IDR_MENU1);
 	SetMenu(&m_Menu);
 	m_wenJianXinXi = L"此处显示文件信息";
+
+	m_MyTable.InsertItem(0, L"窗口");
+	m_MyTable.InsertItem(1, L"进程");
+	m_MyTable.InsertItem(2, L"线程");
+	m_MyTable.InsertItem(3, L"模块");
+	m_MyTable.InsertItem(4, L"堆");
+	m_MyTable.InsertItem(5, L"CPU");
+	m_MyTable.InsertItem(6, L"其他信息");
+//m_MyTable.m_Dia[0] = new CDiaChuangkou();
+//m_MyTable.m_Dia[1] = new CDiaJincheng();
+//m_MyTable.m_Dia[2] = new CDiaXianCheng();
+//m_MyTable.m_Dia[3] = new CDiaMokuai();
+//m_MyTable.m_Dia[4] = new CDiaDui();
+//m_MyTable.m_Dia[5] = new CDiaCpu();
+//m_MyTable.m_Dia[6] = new CDigInformation();
+//
+//m_MyTable.m_Dia[0]->Create(IDD_DIALOGChuangkou, &m_MyTable);
+//m_MyTable.m_Dia[1]->Create(IDD_DIALOGJincheng, &m_MyTable);
+//m_MyTable.m_Dia[2]->Create(IDD_DIALOGXianCheng, &m_MyTable);
+//m_MyTable.m_Dia[3]->Create(IDD_DIALOGMokuai, &m_MyTable);
+//m_MyTable.m_Dia[4]->Create(IDD_DIALOGDui, &m_MyTable);
+//m_MyTable.m_Dia[5]->Create(IDD_DIALOGCPU, &m_MyTable);
+//m_MyTable.m_Dia[6]->Create(IDD_DIALOGInformation, &m_MyTable);
+	m_MyTable.CHuangkou.Create(IDD_DIALOGChuangkou, &m_MyTable);
+	m_MyTable.Cpu.Create(IDD_DIALOGCPU, &m_MyTable);
+	m_MyTable.Dui.Create(IDD_DIALOGDui, &m_MyTable);
+	m_MyTable.JinCheng.Create(IDD_DIALOGJincheng, &m_MyTable);
+	m_MyTable.Mokuai.Create(IDD_DIALOGMokuai, &m_MyTable);
+	m_MyTable.XianCheng.Create(IDD_DIALOGXianCheng, &m_MyTable);
+	m_MyTable.Information.Create(IDD_DIALOGInformation, &m_MyTable);
+	CRect rc;
+	m_MyTable.GetClientRect(rc);
+	rc.DeflateRect(2, 45, 2, 5);
+		m_MyTable.CHuangkou.MoveWindow(rc);
+		m_MyTable.Cpu.MoveWindow(rc);
+		m_MyTable.Dui.MoveWindow(rc);
+		m_MyTable.JinCheng.MoveWindow(rc);
+		m_MyTable.Mokuai.MoveWindow(rc);
+		m_MyTable.XianCheng.MoveWindow(rc);
+		m_MyTable.Information.MoveWindow(rc);
+		m_MyTable.hide();
+		m_MyTable.CHuangkou.ShowWindow(SW_SHOW);
+	//for (int i = 0;i < 7;i++) {
+	//	m_MyTable.m_Dia[i]->MoveWindow(rc);
+	//}
+	//m_MyTable.m_Dia[0]->ShowWindow(SW_SHOW);
+	//for (int i = 1;i < 7;i++) {
+	//	m_MyTable.m_Dia[i]->ShowWindow(SW_HIDE);
+	//}
+
 	UpdateData(false);
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -309,4 +369,14 @@ void CMFC任务管理器Dlg::OnNMClickMfcshelllist1(NMHDR *pNMHDR, LRESULT *pResult)
 	UpdateData(false);
 	int temp = pNMItemActivate->iItem;
 	wenJianMing = m_ShellList.GetItemText(temp, 0);
+}
+
+
+afx_msg LRESULT CMFC任务管理器Dlg::OnGetmokuai(WPARAM wParam, LPARAM lParam)
+{
+	CString pocessID;
+	pocessID.Format(_T("%ld"), wParam);
+	m_MyTable.Mokuai.pocessID = pocessID;
+	m_MyTable.Mokuai.OnInitDialog();
+	return 0;
 }

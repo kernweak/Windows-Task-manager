@@ -5,7 +5,8 @@
 #pragma once
 #include "afxshelltreectrl.h"
 #include "afxshelllistctrl.h"
-
+#include "MyTableCtrl.h"
+#define WM_GETMOKUAI WM_USER +1 
 
 // CMFC任务管理器Dlg 对话框
 class CMFC任务管理器Dlg : public CDialogEx
@@ -47,4 +48,7 @@ public:
 	CString wenJianMing;//文件名
 	afx_msg void OnNMClickMfcshelllist1(NMHDR *pNMHDR, LRESULT *pResult);
 	CString m_wenJianXinXi;
+	CMyTableCtrl m_MyTable;
+protected:
+	afx_msg LRESULT OnGetmokuai(WPARAM wParam, LPARAM lParam);
 };
