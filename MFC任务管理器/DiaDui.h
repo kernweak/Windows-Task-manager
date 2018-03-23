@@ -1,4 +1,5 @@
 #pragma once
+#include "afxcmn.h"
 
 
 // CDiaDui 对话框
@@ -20,4 +21,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	CListCtrl m_ListCtrl2;
+	CString pocessID;
+	BOOL OnInitDialog();
 };

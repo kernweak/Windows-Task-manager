@@ -1,4 +1,5 @@
 #pragma once
+#include "afxcmn.h"
 
 
 // CDiaCpu 对话框
@@ -20,4 +21,9 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	BOOL OnInitDialog();
+	CListCtrl m_Memory;
+	CListCtrl m_Cpu;
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };

@@ -89,6 +89,7 @@ BEGIN_MESSAGE_MAP(CMFC任务管理器Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON2, &CMFC任务管理器Dlg::OnBnClickedHuoquWenjian)
 	ON_NOTIFY(NM_CLICK, IDC_MFCSHELLLIST1, &CMFC任务管理器Dlg::OnNMClickMfcshelllist1)
 	ON_MESSAGE(WM_GETMOKUAI, &CMFC任务管理器Dlg::OnGetmokuai)
+	ON_MESSAGE(WM_GETDUI, &CMFC任务管理器Dlg::OnGetdui)
 END_MESSAGE_MAP()
 
 
@@ -351,9 +352,78 @@ void CMFC任务管理器Dlg::OnBnClickedHuoquWenjian()
 	FileTimeToLocalFileTime(&wfad.ftCreationTime, &ftLocal);
 	SYSTEMTIME stcCreatTime;
 	FileTimeToSystemTime(&ftLocal, &stcCreatTime);
+	CString str;
+	str.Format(_T("%d"), stcCreatTime.wYear);
+	m_wenJianXinXi = wenJianMing;
+	m_wenJianXinXi = wenJianMing+L" \r\n";
+	m_wenJianXinXi = m_wenJianXinXi+L"创建日期：";
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"Y/";
+	str.Format(_T("%d"), stcCreatTime.wMonth);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"M/";
+	str.Format(_T("%d"), stcCreatTime.wDay);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"D/";
+	str.Format(_T("%d"), stcCreatTime.wHour);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"H:";
+	str.Format(_T("%d"), stcCreatTime.wMinute);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"M:";
+	str.Format(_T("%d"), stcCreatTime.wMinute);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"S\r\n";
+	m_wenJianXinXi = m_wenJianXinXi + L"修改日期：";
+	FileTimeToLocalFileTime(&wfad.ftLastWriteTime, &ftLocal);
+	FileTimeToSystemTime(&ftLocal, &stcCreatTime);
+	str.Format(_T("%d"), stcCreatTime.wYear);
+
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"Y/";
+	str.Format(_T("%d"), stcCreatTime.wMonth);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"M/";
+	str.Format(_T("%d"), stcCreatTime.wDay);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"D/";
+	str.Format(_T("%d"), stcCreatTime.wHour);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"H:";
+	str.Format(_T("%d"), stcCreatTime.wMinute);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"M:";
+	str.Format(_T("%d"), stcCreatTime.wMinute);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	m_wenJianXinXi = m_wenJianXinXi + L"S\r\n";
+
+	DWORD64 qwFileSize = 0;
+	qwFileSize = wfad.nFileSizeHigh;
+	qwFileSize <<= sizeof(DWORD) * 8;
+	qwFileSize += wfad.nFileSizeLow;
 	
+	DWORD64 G = 0, M = 0, K = 0, B = 0;
+	B = qwFileSize % 1024;DWORD64 temp = 1;temp = qwFileSize;
+	qwFileSize = qwFileSize - B;
+	G = qwFileSize / 1024.0 / 1024 / 1024;
+	//DWORD64 temp = 1024 * 1024 * 1024;
+	//temp = temp * G;
 	
-	m_wenJianXinXi = wenJianSum;
+	qwFileSize= qwFileSize - (1024*1024*1024*G)-B;
+	
+	M = qwFileSize / 1024.0 / 1024;
+
+	qwFileSize = qwFileSize -( 1024 * 1024 * M);
+	K = temp-(1024*1024*M)- (1024 * 1024 * 1024 * G)-B;
+	K = K / 1024;
+//	M= (qwFileSize - B-1024*K) % (1024 * 1024);
+//	G = (qwFileSize - B - 1024 * K - 1024 * 1024 * M) / 1024;
+	//qwFileSize = qwFileSize / 1024.0;//kb
+	//qwFileSize = qwFileSize / 1024;//mB
+	m_wenJianXinXi = m_wenJianXinXi + L"文件大小：";
+	str.Format(_T("%dG%dM%dK%dB"), G,M,K,B);
+	m_wenJianXinXi = m_wenJianXinXi + str;
+	//m_wenJianXinXi = wenJianSum;
 		//L"创建时间：";
 	UpdateData(false);	
 }
@@ -378,5 +448,15 @@ afx_msg LRESULT CMFC任务管理器Dlg::OnGetmokuai(WPARAM wParam, LPARAM lParam)
 	pocessID.Format(_T("%ld"), wParam);
 	m_MyTable.Mokuai.pocessID = pocessID;
 	m_MyTable.Mokuai.OnInitDialog();
+	return 0;
+}
+
+
+afx_msg LRESULT CMFC任务管理器Dlg::OnGetdui(WPARAM wParam, LPARAM lParam)
+{
+	CString pocessID;
+	pocessID.Format(_T("%ld"), wParam);
+	m_MyTable.Dui.pocessID = pocessID;
+	m_MyTable.Dui.OnInitDialog();
 	return 0;
 }

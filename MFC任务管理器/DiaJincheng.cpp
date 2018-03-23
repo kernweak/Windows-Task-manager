@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include <TlHelp32.h>
 #include "DiaMokuai.h"
+#include "DiaDui.h"
 #include "MFC任务管理器Dlg.h"
 
 // CDiaJincheng 对话框
@@ -56,6 +57,7 @@ BEGIN_MESSAGE_MAP(CDiaJincheng, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CDiaJincheng::OnBnClickedOk)
 	ON_BN_CLICKED(IDC_BUTTON1, &CDiaJincheng::OnBnClickedmokuai)
 	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CDiaJincheng::OnNMClickList1)
+	ON_BN_CLICKED(IDC_BUTTON2, &CDiaJincheng::OnBnClickeddui)
 END_MESSAGE_MAP()
 
 
@@ -136,4 +138,13 @@ void CDiaJincheng::OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 	int temp = pNMItemActivate->iItem;
 	temp2 = m_ListCtrl.GetItemText(temp, 1);
 	
+}
+
+
+void CDiaJincheng::OnBnClickeddui()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	int n;
+	n = _wtoi(temp2);
+	GetParent()->GetParent()->SendMessage(WM_GETDUI ,n, 3); 
 }

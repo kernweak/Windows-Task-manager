@@ -7,6 +7,7 @@
 #include "afxshelllistctrl.h"
 #include "MyTableCtrl.h"
 #define WM_GETMOKUAI WM_USER +1 
+#define WM_GETDUI WM_USER +2 
 
 // CMFC任务管理器Dlg 对话框
 class CMFC任务管理器Dlg : public CDialogEx
@@ -51,4 +52,5 @@ public:
 	CMyTableCtrl m_MyTable;
 protected:
 	afx_msg LRESULT OnGetmokuai(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnGetdui(WPARAM wParam, LPARAM lParam);
 };
