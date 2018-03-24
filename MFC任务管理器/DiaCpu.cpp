@@ -5,7 +5,8 @@
 #include "MFC任务管理器.h"
 #include "DiaCpu.h"
 #include "afxdialogex.h"
-
+#include <Windows.h>
+#include <WinBase.h>
 
 // CDiaCpu 对话框
 
@@ -47,6 +48,24 @@ int GetCpuUsage() {
 	double dOldUserTime = FIETIME2Double(userTime);
 	double dNewUserTime = FIETIME2Double(newUserTime);
 	return int(100 - (dNewIdleTime - dOldIdleTime) / (dNewKernelTime - dOldKernelTime + dNewUserTime - dOldUserTime)*100.0);
+}
+DWORD WINAPI Proc(
+	LPVOID lpParameter
+) {
+	CDiaCpu* cpu = (CDiaCpu*)lpParameter;
+	MEMORYSTATUS memStatus;
+	GlobalMemoryStatus(&memStatus);
+	CString str;
+	str.Format(_T("%d"), memStatus.dwMemoryLoad);
+	cpu->m_Memory.SetItemText(0, 1, str);
+	LONGLONG i = (memStatus.dwTotalPhys - memStatus.dwAvailPhys) / 1024 / 1024;
+
+	str.Format(_T("%ldMB"), i);
+	cpu->m_Memory.SetItemText(1, 1, str);
+
+	str.Format(_T("%d"), GetCpuUsage());
+	cpu->m_Cpu.SetItemText(0, 1, str);
+	return 0;
 }
 
 
@@ -96,7 +115,10 @@ BOOL CDiaCpu::OnInitDialog()
 	SYSTEM_INFO i;
 	GetSystemInfo(&i);
 	//HWND hwndEdit = GetDlgItem(hwnd, IDC_EDITTIMER);
-	SetTimer(WM_TIMER,1000,NULL);
+
+	
+	SetTimer(WM_TIMER, 1000, NULL);
+
 	return true;
 }
 
@@ -111,19 +133,22 @@ END_MESSAGE_MAP()
 
 void CDiaCpu::OnTimer(UINT_PTR nIDEvent)
 {
+	HANDLE hTread = INVALID_HANDLE_VALUE;
+	hTread=CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Proc, this, NULL, NULL);
+	WaitForSingleObject(hTread, 0);
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	MEMORYSTATUS memStatus;
-	GlobalMemoryStatus(&memStatus);
-	CString str;
-	str.Format(_T("%d"), memStatus.dwMemoryLoad);
-	m_Memory.SetItemText(0, 1, str);
-	LONGLONG i = (memStatus.dwTotalPhys - memStatus.dwAvailPhys) / 1024 / 1024;
-	
-	str.Format(_T("%ldMB"), i);
-	m_Memory.SetItemText(1, 1, str);
-
-	str.Format(_T("%d"), GetCpuUsage());
-	m_Cpu.SetItemText(0, 1, str);
+//	MEMORYSTATUS memStatus;
+//GlobalMemoryStatus(&memStatus);
+//CString str;
+//str.Format(_T("%d"), memStatus.dwMemoryLoad);
+//m_Memory.SetItemText(0, 1, str);
+//LONGLONG i = (memStatus.dwTotalPhys - memStatus.dwAvailPhys) / 1024 / 1024;
+//
+//str.Format(_T("%ldMB"), i);
+//m_Memory.SetItemText(1, 1, str);
+//
+//str.Format(_T("%d"), GetCpuUsage());
+//m_Cpu.SetItemText(0, 1, str);
 
 	
 }
