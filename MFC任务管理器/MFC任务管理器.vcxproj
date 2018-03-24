@@ -186,6 +186,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DiaAbout.h" />
     <ClInclude Include="DiaChuangkou.h" />
     <ClInclude Include="DiaCpu.h" />
     <ClInclude Include="DiaDui.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DiaAbout.cpp" />
     <ClCompile Include="DiaChuangkou.cpp" />
     <ClCompile Include="DiaCpu.cpp" />
     <ClCompile Include="DiaDui.cpp" />

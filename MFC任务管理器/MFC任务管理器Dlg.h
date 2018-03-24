@@ -53,4 +53,6 @@ public:
 protected:
 	afx_msg LRESULT OnGetmokuai(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnGetdui(WPARAM wParam, LPARAM lParam);
+public:
+	afx_msg void On32780();
 };

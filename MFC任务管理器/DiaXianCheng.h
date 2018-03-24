@@ -25,4 +25,9 @@ public:
 	CListCtrl m_ListCtrl;
 	BOOL OnInitDialog();
 	BOOL BianLi();
+	afx_msg void OnBnClickedkill();
+	CString temp2;
+	afx_msg void OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedGuaqi();
+	afx_msg void OnBnClickedButton2();
 };

@@ -9,7 +9,7 @@
 #include "DiaMokuai.h"
 #include "DiaDui.h"
 #include "MFC任务管理器Dlg.h"
-
+#include<windows.h>
 // CDiaJincheng 对话框
 
 IMPLEMENT_DYNAMIC(CDiaJincheng, CDialogEx)
@@ -58,6 +58,7 @@ BEGIN_MESSAGE_MAP(CDiaJincheng, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &CDiaJincheng::OnBnClickedmokuai)
 	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CDiaJincheng::OnNMClickList1)
 	ON_BN_CLICKED(IDC_BUTTON2, &CDiaJincheng::OnBnClickeddui)
+	ON_BN_CLICKED(IDC_BUTTON3, &CDiaJincheng::OnBnClickedkill)
 END_MESSAGE_MAP()
 
 
@@ -144,7 +145,18 @@ void CDiaJincheng::OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult)
 void CDiaJincheng::OnBnClickeddui()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	int n;
+	WORD n;
 	n = _wtoi(temp2);
 	GetParent()->GetParent()->SendMessage(WM_GETDUI ,n, 3); 
+}
+
+
+void CDiaJincheng::OnBnClickedkill()
+{
+	WORD n;
+	n = _wtoi(temp2);
+	HANDLE hwnd = OpenProcess(PROCESS_TERMINATE, FALSE, n);
+	TerminateProcess(hwnd, 0);
+
+	// TODO: 在此添加控件通知处理程序代码
 }

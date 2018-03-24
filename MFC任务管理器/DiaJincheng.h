@@ -30,4 +30,5 @@ public:
 	CString temp2;
 	afx_msg void OnNMClickList1(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnBnClickeddui();
+	afx_msg void OnBnClickedkill();
 };

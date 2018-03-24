@@ -15,7 +15,9 @@
 #include "DiaMokuai.h"
 #include "DiaXianCheng.h"
 #include "DigInformation.h"
-
+#include "DiaAbout.h"
+#include <PowrProf.h>
+#pragma comment (lib,"PowrProf.lib")
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -41,6 +43,14 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void Guanji();
+	afx_msg void 关于();
+	afx_msg void Onchongqi();
+	afx_msg void Onzhuxiao();
+	afx_msg void Onxiumian();
+	afx_msg void Onshuimian();
+	afx_msg void OnLockScreen();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -53,6 +63,13 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	ON_COMMAND(ID_32775, &CAboutDlg::Guanji)
+	ON_COMMAND(ID_32779, &CAboutDlg::关于)
+	ON_COMMAND(ID_32776, &CAboutDlg::Onchongqi)
+	ON_COMMAND(ID_32777, &CAboutDlg::Onzhuxiao)
+	ON_COMMAND(ID_32778, &CAboutDlg::Onxiumian)
+	ON_COMMAND(ID_32781, &CAboutDlg::Onshuimian)
+	ON_COMMAND(ID_32782, &CAboutDlg::OnLockScreen)
 END_MESSAGE_MAP()
 
 
@@ -90,6 +107,7 @@ BEGIN_MESSAGE_MAP(CMFC任务管理器Dlg, CDialogEx)
 	ON_NOTIFY(NM_CLICK, IDC_MFCSHELLLIST1, &CMFC任务管理器Dlg::OnNMClickMfcshelllist1)
 	ON_MESSAGE(WM_GETMOKUAI, &CMFC任务管理器Dlg::OnGetmokuai)
 	ON_MESSAGE(WM_GETDUI, &CMFC任务管理器Dlg::OnGetdui)
+	ON_COMMAND(ID_32780, &CMFC任务管理器Dlg::On32780)
 END_MESSAGE_MAP()
 
 
@@ -99,7 +117,14 @@ BOOL CMFC任务管理器Dlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 	UpdateData(true);
-
+	HANDLE hToken = NULL;
+	HANDLE hProcess = GetCurrentProcess();
+	OpenProcessToken(hProcess, TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken);
+	TOKEN_PRIVILEGES tp = { 0 };
+	LookupPrivilegeValue(0, SE_SHUTDOWN_NAME, &tp.Privileges[0].Luid);
+	tp.PrivilegeCount = 1;
+	tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+	AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(tp), NULL, NULL);
 	// 将“关于...”菜单项添加到系统菜单中。
 
 	// IDM_ABOUTBOX 必须在系统命令范围内。
@@ -459,4 +484,64 @@ afx_msg LRESULT CMFC任务管理器Dlg::OnGetdui(WPARAM wParam, LPARAM lParam)
 	m_MyTable.Dui.pocessID = pocessID;
 	m_MyTable.Dui.OnInitDialog();
 	return 0;
+}
+
+
+void CAboutDlg::Guanji()
+{
+	// TODO: 在此添加命令处理程序代码
+	ExitWindowsEx(EWX_POWEROFF | EWX_FORCE,0);
+
+}
+
+
+void CAboutDlg::关于()
+{
+	CDiaAbout m(this);
+	m.DoModal();
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CMFC任务管理器Dlg::On32780()
+{
+	// TODO: 在此添加命令处理程序代码
+	CDiaAbout m;
+	m.DoModal();
+
+}
+
+
+void CAboutDlg::Onchongqi()
+{
+	// TODO: 在此添加命令处理程序代码
+	ExitWindowsEx(EWX_REBOOT | EWX_FORCE,0);
+}
+
+
+void CAboutDlg::Onzhuxiao()
+{
+	ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0);
+	// TODO: 在此添加命令处理程序代码
+}
+
+
+void CAboutDlg::Onxiumian()
+{
+	// TODO: 在此添加命令处理程序代码
+	SetSuspendState(TRUE,false,false);
+}
+
+
+void CAboutDlg::Onshuimian()
+{
+	// TODO: 在此添加命令处理程序代码
+	SetSuspendState(FALSE, FALSE, FALSE);
+}
+
+
+void CAboutDlg::OnLockScreen()
+{
+	// TODO: 在此添加命令处理程序代码
+	LockWorkStation();
 }
